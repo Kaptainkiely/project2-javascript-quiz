@@ -1,27 +1,26 @@
-<!DOCTYPE html>\
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8" />
-        <link rel="stylesheet" href="style.css" />
-        <title>JavaScript Quiz</title>
+        <link rel="stylesheet" href="src/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/90475f793e.js" crossorigin="anonymous"></script>
+        <title>JavaScript Quiz Game</title>
         
 
     </head>
 
     <body>
-        <div id="quiz">
-            <h1>Quiz</h1>
-            <p>what continent is india in?</p>
-            <form>
-              <input type="radio" id="a" name="answer" value="a">
-              <label for="a">Asia</label><br>
-              <input type="radio" id="b" name="answer" value="b">
-              <label for="b">Africa</label><br>
-              <input type="radio" id="c" name="answer" value="c">
-              <label for="c">Europe</label><br>
-              <button type="button" onclick="checkAnswer()">Submit</button>
-            </form>
-            <div id="result"></div>
+
+    <div class="container">
+        <div id="home" class="flex-center flex-column">
+            <h1>Javascript Quiz Game</h1>
+            <a class="btn" href="">How to play ?</a>
+            <a class="btn" href="Game.html">Play</a>
+            <a class="btn" href="" id="highscore-btn">High Scores<i class="fas fa-crown"></a>
+            
+        </div>
+    </div>
 
 
         <script src="src/script.js"></script>
