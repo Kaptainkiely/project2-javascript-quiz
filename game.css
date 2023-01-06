@@ -35,17 +35,40 @@ body {
     background: linear-gradient(32deg,rgba(230, 29, 29, 1 ) 0%, rgb(224, 11, 11, 1) 100%);
 }
 #hud {
-    display:inline-block;
     justify-content: space-between;
 }
 .hud-prefix {
     text-align: center;
-    font-size: 2rem;
+    font-size: 3rem;
+    display: flex;
+    padding: 20px;
+}
+.hud-main-text {
+    text-align: center;
 }
 
-@media screen and (max-width:758px) {
+#progressBar {
+    width: 20rem;
+    height: 3rem;
+    border: 0.2rem solid rgb(11, 223,36);
+    margin-top: 0.9rem;
+    border-radius: 50px;
+    overflow: hidden;
+    padding: 20px;
+}
+
+#progressBarFull {
+    height: 100%;
+    background: rgb(11, 223,36);
+    width: 0%;
+}
+
+
+@media only screen and (max-width:768px) {
+
     .choice-container {
-        min-width: 40rem;
+      display: flex;
+      flex-wrap: wrap;
     }
     
 }
