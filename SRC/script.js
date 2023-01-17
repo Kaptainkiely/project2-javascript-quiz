@@ -1,7 +1,7 @@
 const question = document.querySelector('#question');
 const choices = Array.from(document.querySelectorAll('.choice-text'));
 const progressText = document.querySelector('#progressText');
-const scoreText = document.querySelector('#ScoreText');
+const scoreText = document.querySelector('#Score');
 const progressBarFull = document.querySelector('#progressBarFull');
 
 let currentQuestion = {}
@@ -22,20 +22,20 @@ let questions = [
 
     {
         question: 'how many sides does a pentagon have ?',
-        choice1: '5',
-        choice2: '6',
-        choice3: '7',
-        choice4: '8',
-        answer: '5',
+        choice1: 'five',
+        choice2: 'six',
+        choice3: 'seven',
+        choice4: 'eight',
+        answer: 'five',
     },
 
      {
-        question: 'what is 7+2+5= ',
-        choice1: '12',
-        choice2: '18',
-        choice3: '14',
-        choice4: '16',
-        answer: '14',
+        question: 'what is Aarons middle name',
+        choice1: 'fred',
+        choice2: 'frank',
+        choice3: 'frazer',
+        choice4: 'francis',
+        answer: 'frazer',
      },
 
      {
@@ -109,4 +109,7 @@ getNewQuestion = () => {
             });
         });
     }
+
+    window.onload = startGame;
+
 
