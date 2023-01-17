@@ -17,9 +17,7 @@ let questions = [
        choice2: 'Asia',
        choice3: 'South America',
        choice4: 'Africa',
-       answer: Asia,
-
-
+       answer: 'Asia',
     },
 
     {
@@ -28,10 +26,8 @@ let questions = [
         choice2: '6',
         choice3: '7',
         choice4: '8',
-        answer: 5,
- 
- 
-     },
+        answer: '5',
+    },
 
      {
         question: 'what is 7+2+5= ',
@@ -39,25 +35,21 @@ let questions = [
         choice2: '18',
         choice3: '14',
         choice4: '16',
-        answer: 14,
- 
- 
+        answer: '14',
      },
 
      {
-        question: 'whatr fruit are minions obsessed with ?',
+        question: 'what fruit are minions obsessed with ?',
         choice1: 'Apples',
         choice2: 'melons',
         choice3: 'strawberries',
         choice4: 'bananas',
-        answer: bananas,
- 
- 
+        answer: 'bananas',
      }
 ]
 
 const SCORE_POINTS = 100
-const max_questions = 4
+const MAX_QUESTIONS = 4
 
 startGame = () => {
     questionCounter = 0
@@ -67,29 +59,54 @@ startGame = () => {
 }
 
 getNewQuestion = () => {
-    if(availableQuestions.length === 0 || questionsCounter > MAX_QUESTIONS ) {
-        localStorage.seItem('mostRecentScore', score )
-
-        return window.location.assigm('/end.html')
+    if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS ) {
+        localStorage.setItem('mostRecentScore', score )
+        return window.location.assign('/end.html')
     }
-        questionCounter++
-        progressText.innerText = 'Question ${questionCounter} of ${MAX_QUESTIONS}'
-        progressBarFull.getElementsByClassName.width = '${(questionCoiunter/MAX_QUESTIONS)* 100}%'
 
-        const questionIndex = Marg.floor(Math.random() * availableQuestions.ength)
-        currentQuestion = availableQuestions[questionIndex]
-        question.innerText =currentQuestion.question
+    const questionIndex = Math.floor(Math.random() * availableQuestions.length)
+    currentQuestion = availableQuestions[questionIndex]
+    availableQuestions.splice(questionIndex, 1);
 
-        choices.forEach(choice =>{
+    acceptingAnswers = true;
+    
+        questionCounter++;
+        progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`
+        progressBarFull.style.width = `${(questionCounter/MAX_QUESTIONS)* 100}%`
+
+        question.innerText = currentQuestion.question
+
+        choices.forEach(choice => {
             const number = choice.dataset['number']
             choice.innerText = currentQuestion ['choice' + number]
-        })
+        });
 
-        availableQuestions.splice(questionsIndex, 1)
+        incrementScore = num => {
+            score += num;
+            scoreText.innerText = score;
+        }
 
-        acceptingAnswers = true 
 
+        choices.forEach(choice => {
+            choice.addEventListener('click', e => {
+                if(!acceptingAnswers) return;
+                acceptingAnswers = false;
+                const selectedChoice = e.target;
+                const selectedAnswer = selectedChoice.dataset['number'];
+                let classToApply = 'incorrect';
+                let message = 'Incorrect';
+                if(selectedAnswer === currentQuestion.answer) {
+                    classToApply = 'correct'
+                    message = 'Correct';
+                    incrementScore(SCORE_POINTS)
+                }
+                
+                selectedChoice.parentElement.classList.add(classToApply);
+                setTimeout(() => {
+                    selectedChoice.parentElement.classList.remove(classToApply);
+                    getNewQuestion();
+                }, 1000);
+            });
+        });
     }
-
-    
 
