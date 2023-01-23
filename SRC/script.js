@@ -101,7 +101,6 @@ function handleQuestion() {
     
 }
 
-
 function getNewQuestion() {
     if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS ) {
         handleEnd();
