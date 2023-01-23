@@ -51,65 +51,73 @@ let questions = [
 const SCORE_POINTS = 100
 const MAX_QUESTIONS = 4
 
-startGame = () => {
+function startGame() {
+    console.log("Start game function called")
     questionCounter = 0
     score = 0
     availableQuestions=[...questions]
     getNewQuestion()
 }
 
-getNewQuestion = () => {
-    if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS ) {
-        localStorage.setItem('mostRecentScore', score )
-        return window.location.assign('/end.html')
-    }
+function handleEnd() {
+    localStorage.setItem('mostRecentScore', score )
+    console.log(localStorage.getItem("mostRecentScore"))
+    return window.location.assign('/end.html')
+}
 
+function handleQuestionSelection() {
+    if(availableQuestions.length === 0) {
+        handleEnd();
+    }
     const questionIndex = Math.floor(Math.random() * availableQuestions.length)
     currentQuestion = availableQuestions[questionIndex]
     availableQuestions.splice(questionIndex, 1);
+}
 
+function handleAcceptingAnswers() {
     acceptingAnswers = true;
+}
+
+function handleProgress() {
+    questionCounter++;
+    progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`
+}
+
+function handleQuestion() {
+    question.innerText = currentQuestion.question
+
+    choices.forEach(choice => {
+        const number = choice.dataset['number'];
+        choice.innerText = currentQuestion ['choice' + number];
+    });
     
-        questionCounter++;
-        progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`
-        progressBarFull.style.width = `${(questionCounter/MAX_QUESTIONS)* 100}%`
-
-        question.innerText = currentQuestion.question
-
-        choices.forEach(choice => {
-            const number = choice.dataset['number']
-            choice.innerText = currentQuestion ['choice' + number]
+    choices.forEach(choice => {
+        choice.addEventListener('click', e => {
+            if(e.target.innerText === currentQuestion.answer) {
+                incrementScore();
+            }
         });
-
-        incrementScore = num => {
-            score += num;
-            scoreText.innerText = score;
-        }
+    });
+    
+}
 
 
-        choices.forEach(choice => {
-            choice.addEventListener('click', e => {
-                if(!acceptingAnswers) return;
-                acceptingAnswers = false;
-                const selectedChoice = e.target;
-                const selectedAnswer = selectedChoice.dataset['number'];
-                let classToApply = 'incorrect';
-                let message = 'Incorrect';
-                if(selectedAnswer === currentQuestion.answer) {
-                    classToApply = 'correct'
-                    message = 'Correct';
-                    incrementScore(SCORE_POINTS)
-                }
-                
-                selectedChoice.parentElement.classList.add(classToApply);
-                setTimeout(() => {
-                    selectedChoice.parentElement.classList.remove(classToApply);
-                    getNewQuestion();
-                }, 1000);
-            });
-        });
+function getNewQuestion() {
+    if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS ) {
+        handleEnd();
     }
 
-    window.onload = startGame;
+    handleQuestionSelection();
+    handleAcceptingAnswers();
+    handleProgress();
+    handleQuestion();
+    progressBarFull.style.width = (questionCounter/MAX_QUESTIONS)* 100 + "%";
+}
+
+function incrementScore() {
+    score += SCORE_POINTS;
+    scoreText.innerText = score;
+}
+
 
 
