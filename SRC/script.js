@@ -119,5 +119,7 @@ function incrementScore() {
     scoreText.innerText = score;
 }
 
+startGame()
+
 
 
