@@ -10,7 +10,7 @@ let score = 0
 let questionCounter =0
 let availableQuestions = []
 
-let questions = [
+const questions = [
     {
        question: 'which continent is India in ?',
        choice1: 'Europe',
@@ -74,10 +74,10 @@ function handleQuestionSelection() {
     if(availableQuestions.length === 0) {
         handleEnd();
     }
-    const questionIndex = Math.floor(Math.random() * availableQuestions.length)
-    currentQuestion = availableQuestions[questionIndex]
-    availableQuestions.splice(questionIndex, 1);
+    const questionIndex = Math.floor(Math.random() * availableQuestions.length);
+    [currentQuestion] = availableQuestions.splice(questionIndex, 1);
 }
+
 //First, it checks if there are no more available questions (if(availableQuestions.length === 0)). If that is the case, it calls the handleEnd function.
 //If there are still available questions, it generates a random index (questionIndex) using Math.floor(Math.random() * availableQuestions.length).
 //Then, it uses the generated index to get the current question from the availableQuestions array.
@@ -91,8 +91,9 @@ function handleAcceptingAnswers() {
 
 function handleProgress() {
     questionCounter++;
-    progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`
+    progressText.innerText = `Question ${questionCounter} of ${MAX_QUESTIONS}`;
 }
+
 //The function handleProgress increments the value of the questionCounter by 1, and updates the text of an element with the ID of progressText with the current progress of the quiz.
 // The progress text displays the current question number and the total number of questions in the format "Question {current question number} of {total number of questions}". For example, if the current question is the 5th out of 10 total questions, the progress text would be "Question 5 of 10".
 
@@ -109,11 +110,14 @@ function handleQuestion() {
     
     choices.forEach(choice => {
         choice.addEventListener('click', e => {
-            if(e.target.innerText === currentQuestion.answer) {
-                incrementScore();
-            }
+            if (!acceptingAnswers) return;
+            acceptingAnswers = false;
+            const selectedChoice = e.target;
+            const selectedAnswer = selectedChoice.dataset['number'];
+        
         });
     });
+    
     
 }
 //Sets the text of the question to be displayed on the page by setting the innerText of the question element to the question property of the currentQuestion object.
@@ -138,12 +142,18 @@ function getNewQuestion() {
 //It calls the handleQuestion function to update the text of the question element with the current question, update the text of the choice elements with the choices for the current question, and add click event listeners to each choice that increment the score if the correct answer is clicked.
 //It updates the width of the progressBarFull element to reflect the progress of the quiz game by setting it to the product of the question counter divided by the maximum number of questions multiplied by 100 and concatenated with the "%" symbol.
 
-function incrementScore() {
-    score += SCORE_POINTS;
-    scoreText.innerText = score;
-}
+const incrementScore = () => {
+    let scoreText = document.getElementById("score");
+    if (scoreText) {
+      let score = parseInt(scoreText.innerText, 10);
+      scoreText.innerText = score + 10;
+    }
+  };
+
+
 //The "incrementScore" function increases the value of the "score" variable by the value of the constant "SCORE_POINTS". Then it updates the text of the HTML element referred to by "scoreText" to the current value of "score". This function is likely used to keep track of the player's score as they answer questions correctly in a quiz
 
+  
 startGame()
 
 
